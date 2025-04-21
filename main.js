@@ -90,3 +90,25 @@ if (filter) {
     renderProjects(filter.value);
   });
 }
+document.getElementById('save-project-btn').addEventListener('click', () => {
+  const projectCards = document.querySelectorAll('.project-card');
+  const projects = [];
+
+  projectCards.forEach(card => {
+    const title = card.querySelector('h3')?.textContent || '';
+    const description = card.querySelector('p')?.textContent || '';
+    const category = card.dataset.category || 'Без категории';
+
+    projects.push({ title, description, category });
+  });
+
+  const blob = new Blob([JSON.stringify(projects, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'project-backup.json';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+});
