@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Информация о проекте</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="dark-bg">
+  <div class="modal">
+    <h2>Информация о проекте</h2>
+    <div id="info-content">
+      <p><strong>Название:</strong> <span id="info-title">Загрузка...</span></p>
+      <p><strong>Описание:</strong></p>
+      <p id="info-desc" style="white-space: pre-line; background-color: #222; padding: 10px; border-radius: 5px;"></p>
+    </div>
+    <br>
+    <a id="back-button" href="index.html" class="btn">← Назад</a>
+  </div>
+  <script>
+    window.addEventListener('DOMContentLoaded', () => {
+      const params = new URLSearchParams(window.location.search);
+      const idParam = params.get("id");
+      const projectId = idParam ? parseInt(idParam) : null;
+      const projects = JSON.parse(localStorage.getItem("projects") || "[]");
+
+      if (!projectId || isNaN(projectId)) {
+        document.getElementById("info-content").innerHTML = "<p>Некорректный ID проекта</p>";
+        return;
+      }
+
+      const project = projects.find(p => p.id === projectId);
+      if (!project) {
+        document.getElementById("info-content").innerHTML = "<p>Проект с ID " + projectId + " не найден</p>";
+        return;
+      }
+
+      document.getElementById("info-title").textContent = project.title;
+      document.getElementById("info-desc").textContent = project.desc;
+    });
+  </script>
+</body>
+</html>

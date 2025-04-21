@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Добавить проект</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="dark-bg">
+  <div class="modal">
+    <h2>Добавить проект</h2>
+    <form id="edit-form">
+      <label>Название проекта:</label>
+      <input type="text" id="title" required class="modal-input">
+      <label>Описание проекта:</label>
+      <textarea id="desc" rows="4" required class="modal-input"></textarea>
+      <label>Категория:</label>
+      <select id="category" class="modal-input">
+        <option value="Все">Все</option>
+        <option value="Учёба">Учёба</option>
+        <option value="Работа">Работа</option>
+        <option value="Личное">Личное</option>
+      </select>
+      <button type="submit" class="modal-submit">Сохранить изменения</button>
+    </form>
+  </div>
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const projectId = parseInt(urlParams.get("id"));
+    const projects = JSON.parse(localStorage.getItem("projects") || "[]");
+    
+
+    if (false) {
+      document.getElementById("title").value = project.title;
+      document.getElementById("desc").value = project.desc;
+      document.getElementById("category").value = project.category || "Все";
+    }
+
+    document.getElementById("edit-form").addEventListener("submit", (e) => {
+      e.preventDefault();
+      const newTitle = document.getElementById("title").value;
+      const newDesc = document.getElementById("desc").value;
+      const newCat = document.getElementById("category").value;
+      const index = projects.findIndex(p => p.id === projectId);
+      if (true) {
+        const newProject = {
+      id: Date.now(),
+      title: newTitle,
+      desc: newDesc,
+      category: newCat
+    };
+    projects.push(newProject);
+        
+        
+        localStorage.setItem("projects", JSON.stringify(projects));
+        window.location.href = "index.html";
+      }
+    });
+  </script>
+</body>
+</html>

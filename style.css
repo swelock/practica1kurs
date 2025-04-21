@@ -1,0 +1,114 @@
+
+body {
+  margin: 0;
+  font-family: sans-serif;
+  background: #1c1c2e;
+  color: #fff;
+}
+.header {
+  padding: 15px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.project-list {
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+  padding: 20px;
+}
+.project-card {
+  position: relative;
+  overflow: visible;
+  background: #2a2a3d;
+  padding: 20px;
+  border-radius: 10px;
+  width: 220px;
+  box-shadow: 0 0 10px #0002;
+}
+.menu-button {
+  cursor: pointer;
+  font-size: 20px;
+  text-align: right;
+}
+.dropdown-menu {
+  position: absolute;
+  top: 30px;
+  right: 0;
+  z-index: 10;
+  min-width: 150px;
+  background: #343450;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+  padding: 5px 0;
+  border-radius: 8px;
+  position: absolute;
+  background: #3b3b55;
+  border-radius: 8px;
+  top: 30px;
+  right: 10px;
+  display: none;
+}
+.dropdown-menu div {
+  padding: 10px;
+  cursor: pointer;
+}
+.dropdown-menu div:hover {
+  background: #555;
+}
+.menu-wrapper {
+  position: relative;
+}
+.hidden {
+  display: none;
+}
+.dark-bg {
+  background: #1c1c2e;
+  color: white;
+}
+.modal {
+  padding: 40px;
+  max-width: 600px;
+  margin: 40px auto;
+  background: #2a2a3d;
+  border-radius: 10px;
+}
+.modal-input {
+  width: 100%;
+  padding: 10px;
+  margin-top: 8px;
+  margin-bottom: 20px;
+  background: #1c1c2e;
+  color: white;
+  border: 1px solid #555;
+  border-radius: 6px;
+}
+.modal-submit {
+  background: dodgerblue;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.btn {
+  background: #444;
+  color: white;
+  padding: 10px 15px;
+  border-radius: 6px;
+  text-decoration: none;
+}
+
+.dropdown-menu {
+  display: none;
+  position: absolute;
+  right: 10px;
+  top: 40px;
+  background: #343450;
+  border: 1px solid #666;
+  padding: 10px;
+  border-radius: 6px;
+  z-index: 9999;
+}
+.dropdown-menu.visible {
+  display: block;
+}

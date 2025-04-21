@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Ведение проекта</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    #editor {
+      min-height: 400px;
+      background: #1e1e2f;
+      color: white;
+      border: 1px solid #555;
+      padding: 15px;
+      border-radius: 8px;
+      white-space: pre-wrap;
+    }
+    #editor img {
+      max-width: 100%%;
+      border-radius: 8px;
+      margin: 10px 0;
+    }
+  </style>
+</head>
+<body class="dark-bg">
+  <div class="modal">
+    <h2>Ведение проекта</h2>
+    <div id="editor" contenteditable="true">Здесь вы можете писать и вставлять изображения (Ctrl+V)...</div>
+    <br>
+    <a href="index.html" class="btn">← Назад</a>
+  </div>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const id = parseInt(params.get("id"));
+    const editor = document.getElementById("editor");
+    let projects = JSON.parse(localStorage.getItem("projects") || "[]");
+    const projectIndex = projects.findIndex(p => p.id === id);
+
+    if (projectIndex === -1) {
+      editor.textContent = "Проект не найден.";
+    } else {
+      const saved = projects[projectIndex].journal || "";
+      editor.innerHTML = saved;
+    }
+
+    editor.addEventListener("input", () => {
+      if (projectIndex !== -1) {
+        projects[projectIndex].journal = editor.innerHTML;
+        localStorage.setItem("projects", JSON.stringify(projects));
+      }
+    });
+
+    editor.addEventListener("paste", async (e) => {
+      const items = e.clipboardData.items;
+      for (let item of items) {
+        if (item.type.indexOf("image") !== -1) {
+          const blob = item.getAsFile();
+          const reader = new FileReader();
+          reader.onload = (evt) => {
+            const img = document.createElement("img");
+            img.src = evt.target.result;
+            let wrap = document.createElement("div"); wrap.className = "image-wrapper"; wrap.appendChild(img); editor.appendChild(wrap);
+            editor.appendChild(document.createElement("br"));
+            if (projectIndex !== -1) {
+              projects[projectIndex].journal = editor.innerHTML;
+              localStorage.setItem("projects", JSON.stringify(projects));
+            }
+          };
+          reader.readAsDataURL(blob);
+          e.preventDefault();
+        }
+      }
+    });
+  </script>
+
+<style>
+  .image-wrapper {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    margin: 20px 0;
+    border-radius: 10px;
+  }
+  .image-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    cursor: pointer;
+  }
+</style>
+
+<div id="image-preview" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:#000d; justify-content:center; align-items:center; z-index:10000;">
+  <img id="preview-img" src="" style="max-width:90%; max-height:80%; border-radius:10px;" />
+  <button onclick="document.getElementById('image-preview').style.display='none'" style="position:absolute; top:30px; left:30px; font-size:28px; background:none; border:none; color:white; cursor:pointer;">←</button>
+</div>
+
+<script>
+  editor.addEventListener("click", (e) => {
+    if (e.target.tagName === "IMG") {
+      const src = e.target.getAttribute("src");
+      document.getElementById("preview-img").setAttribute("src", src);
+      document.getElementById("image-preview").style.display = "flex";
+    }
+  });
+</script>
+</body>
+
+</html>
